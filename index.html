@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Vickilho App System</title>
+    <meta charset="UTF-8">
+    <link href="bootstrap-3.2.0-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="bootstrap-3.2.0-dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/abertura.css" rel="stylesheet" type="text/css" />
+    <link href="css/fonts.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+    <div id="app">
+        Aguarde...
+    </div>
+    <div id="abertura">
+    </div>
+
+    <script src="libs/jquery-1.9.1.js" type="text/javascript"></script>
+    <script src="libs/mustache.min.js" type="text/javascript"></script>
+    <script src="libs/underscore.js" type="text/javascript"></script>
+    <script src="libs/json2.js" type="text/javascript"></script>
+    <script src="bootstrap-3.2.0-dist/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="libs/backbone.js" type="text/javascript"></script>
+    <script src="libs/jquery.mustache.js" type="text/javascript"></script>
+
+    <!--<script src="js/model.js" type="text/javascript"></script>
+    <script src="js/view.js" type="text/javascript"></script>-->
+
+    <script>
+
+
+        (function () {
+
+            var appEl = $('#app');
+            var elAbertura = $('#abertura');
+
+            var firstOpening = false;
+
+            function limpa(element) {
+                $(element).empty();
+            }
+
+            function esconde(element) {
+                $(element).css('display', 'none');
+            }
+
+            function exibe(element) {
+                $(element).css('display', 'block');
+            }
+
+            limpa(appEl);
+            limpa(elAbertura);
+
+            var dadosDaView0 = { nome: 'Abertura', tipo: 'animacao-intro' };
+            $.Mustache.load('templates/abertura/abertura.html')
+                .done(function () {
+                    elAbertura.mustache('app-abertura', dadosDaView0);
+                });
+
+            var dadosDaView = { nome: 'Nome do App', versao: 'Versão 1.0' };
+            $.Mustache.load('templates/cabecalho.html')
+                .done(function () {
+                    appEl.mustache('app-cabecalho', dadosDaView);
+                });
+
+            var dadosDaView2 = { nome: 'Conteúdo inicial' };
+            $.Mustache.load('templates/conteudo.html')
+                .done(function () {
+                    appEl.mustache('conteudo', dadosDaView2);
+                });
+
+            var dadosDaView3 = { nome: 'Rodapé' };
+            $.Mustache.load('templates/rodape.html')
+                .done(function () {
+                    appEl.mustache('rodape', dadosDaView3);
+                });
+
+
+            esconde(appEl);
+            exibe(elAbertura);
+
+            $('#abertura').click(function () {
+                esconde(elAbertura); exibe(appEl);
+            });
+
+            setTimeout(function () { esconde(elAbertura); exibe(appEl); }, 10000);
+
+            // Expôr os dados de cada view fora da função anônima
+            window.dadosDaView0 = dadosDaView0;
+            window.dadosDaView = dadosDaView;
+            window.dadosDaView2 = dadosDaView2;
+            window.dadosDaView3 = dadosDaView3;
+        })();
+
+        function descreveViews (objetoView) {
+        console.log("Nome: "+ objetoView.nome + " . " + "Tipo: " + objetoView.tipo + " . " + "Versão: " + objetoView.versao);
+        }
+
+        console.log("Views carregadas: ")
+        descreveViews (dadosDaView0);
+        descreveViews (dadosDaView);
+        descreveViews (dadosDaView2);
+        descreveViews (dadosDaView3);       
+    </script>
+
+</body>
+
+</html>
